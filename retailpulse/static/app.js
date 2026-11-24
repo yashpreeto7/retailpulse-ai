@@ -5,6 +5,7 @@
 
 let chartInstances = {};
 let inlineChartCounter = 0;
+const currentSessionId = 'session_' + Math.random().toString(36).substring(2, 9);
 
 document.addEventListener("DOMContentLoaded", () => {
     initDashboard();
@@ -213,7 +214,7 @@ async function handleChatSubmit(event) {
         const res = await fetch("/api/chat", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ question })
+            body: JSON.stringify({ question, session_id: currentSessionId })
         });
         removeTypingIndicator(typingId);
 
@@ -457,6 +458,11 @@ async function triggerETL() {
     } catch (err) {
         alert(`Error triggering ETL: ${err.message}`);
     }
+}
+
+function setSqlPreset(sqlText) {
+    document.getElementById("sqlInput").value = sqlText;
+    runSafeSQL();
 }
 
 function escapeHtml(str) {

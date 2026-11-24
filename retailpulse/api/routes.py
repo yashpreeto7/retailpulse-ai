@@ -13,6 +13,7 @@ from retailpulse.analytics.sales import SalesAnalytics
 from retailpulse.analytics.customers import CustomerAnalytics
 from retailpulse.analytics.products import ProductAnalytics
 from retailpulse.analytics.root_cause import RootCauseDiagnostic
+from retailpulse.analytics.forecasting import ForecastingEngine
 from retailpulse.agent.orchestrator import AgentOrchestrator
 from retailpulse.agent.tools import generate_chart
 from retailpulse.agent.sql_guard import SQLGuard, SQLSecurityException
@@ -94,10 +95,10 @@ def get_chart_spec(chart_name: str):
 def chat_with_analyst(payload: ChatRequest):
     """
     Main natural language AI analyst endpoint.
-    Identifies intent, selects and runs tools against the database, verifies grounding, and generates dynamic charts.
+    Supports multi-turn conversational memory, controlled tool execution, and dynamic chart generation.
     """
     try:
-        return orchestrator.answer_question(payload.question)
+        return orchestrator.answer_question(payload.question, session_id=payload.session_id)
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -155,3 +156,34 @@ def get_data_quality():
 def trigger_etl():
     """Triggers complete data cleaning, validation, and database re-population."""
     return run_ingestion_pipeline(force_regenerate=True)
+
+@router.get("/forecast", summary="Predictive Sales Forecast")
+def get_sales_forecast(horizon: int = Query(3, ge=1, le=12)):
+    """Generates predictive revenue forecast with 95% confidence bounds."""
+    return ForecastingEngine.forecast_sales(horizon_months=horizon)
+
+@router.get("/export/sales", summary="Export Monthly Sales CSV")
+def export_sales_csv():
+    """Exports monthly sales performance as a downloadable CSV."""
+    from fastapi.responses import Response
+    monthly = SalesAnalytics.get_monthly_revenue()
+    import io, csv
+    output = io.StringIO()
+    writer = csv.writer(output)
+    writer.writerow(["Month", "Revenue_USD", "Completed_Orders", "AOV_USD", "MoM_Growth_Pct"])
+    for m in monthly:
+        writer.writerow([m.month, m.revenue, m.orders_count, m.aov, m.mom_growth_pct if m.mom_growth_pct is not None else ""])
+    return Response(content=output.getvalue(), media_type="text/csv", headers={"Content-Disposition": "attachment; filename=monthly_sales.csv"})
+
+@router.get("/export/products", summary="Export Top Products CSV")
+def export_products_csv():
+    """Exports top products ranked by revenue as a downloadable CSV."""
+    from fastapi.responses import Response
+    prods = ProductAnalytics.get_top_products_by_revenue(limit=50)
+    import io, csv
+    output = io.StringIO()
+    writer = csv.writer(output)
+    writer.writerow(["Product_ID", "Name", "Category", "Price_USD", "Units_Sold", "Revenue_USD", "Stock_Quantity"])
+    for p in prods:
+        writer.writerow([p.product_id, p.product_name, p.category_name, p.price, p.units_sold, p.revenue, p.stock_quantity])
+    return Response(content=output.getvalue(), media_type="text/csv", headers={"Content-Disposition": "attachment; filename=products_performance.csv"})

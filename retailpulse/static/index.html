@@ -26,6 +26,7 @@
         <div class="header-badges">
             <span class="status-pill online"><span class="dot"></span> SQLite Connected</span>
             <span class="status-pill model-badge" id="modelStatusPill">Engine: Grounded BI Agent</span>
+            <a href="/api/export/sales" target="_blank" class="nav-btn">⬇️ Export Sales CSV</a>
             <a href="/docs" target="_blank" class="nav-btn">API Docs (Swagger)</a>
             <button class="nav-btn primary" onclick="triggerETL()">Refresh / Re-seed Data</button>
         </div>
@@ -91,6 +92,7 @@
                         <button class="chip" onclick="askPreset('What were the top 5 products by revenue?')">🏆 Top 5 Products by Revenue</button>
                         <button class="chip" onclick="askPreset('Show monthly revenue as a chart.')">📊 Show Monthly Revenue Chart</button>
                         <button class="chip highlight" onclick="askPreset('Why did revenue decline last month?')">🔍 Why did revenue decline last month?</button>
+                        <button class="chip highlight" onclick="askPreset('Forecast revenue for the next 3 months.')">📈 Forecast Next 3 Months Revenue</button>
                         <button class="chip" onclick="askPreset('Which category generated the most revenue?')">🏷️ Revenue by Category</button>
                         <button class="chip" onclick="askPreset('Which customers have not purchased recently?')">⏳ Inactive Customers (&gt;90d)</button>
                         <button class="chip warning" onclick="askPreset('What is the weather in Paris?')">⚠️ Test Unsupported Question</button>
@@ -199,7 +201,14 @@
 
                         <!-- Safe SQL Executor -->
                         <div class="sql-panel">
-                            <h4>Safe Read-Only SQL Terminal</h4>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                <h4>Safe Read-Only SQL Terminal</h4>
+                                <div style="display: flex; gap: 0.3rem;">
+                                    <button class="chip" style="font-size: 0.65rem;" onclick="setSqlPreset('SELECT c.name, count(p.product_id) as products, round(sum(oi.subtotal), 2) as revenue FROM categories c JOIN products p ON c.category_id = p.category_id JOIN order_items oi ON p.product_id = oi.product_id GROUP BY c.name ORDER BY revenue DESC')">Category Share</button>
+                                    <button class="chip" style="font-size: 0.65rem;" onclick="setSqlPreset('SELECT status, count(*) as count, round(sum(total_amount), 2) as total_val FROM orders GROUP BY status')">Status Summary</button>
+                                    <button class="chip warning" style="font-size: 0.65rem;" onclick="setSqlPreset('DROP TABLE customers')">Test DROP Block</button>
+                                </div>
+                            </div>
                             <div class="sql-input-row">
                                 <textarea id="sqlInput" rows="3" placeholder="SELECT name, price, stock_quantity FROM products ORDER BY price DESC LIMIT 5"></textarea>
                                 <button class="nav-btn primary" onclick="runSafeSQL()">Execute</button>

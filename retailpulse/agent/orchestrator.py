@@ -24,6 +24,8 @@ class AgentOrchestrator:
     def __init__(self):
         self.gemini_key = os.getenv("GEMINI_API_KEY") or settings.GEMINI_API_KEY
         self.openai_key = os.getenv("OPENAI_API_KEY") or settings.OPENAI_API_KEY
+        # In-memory multi-turn session cache: session_id -> list of turn dicts
+        self.session_memory: dict[str, list[dict[str, Any]]] = {}
 
     def execute_tool(self, tool_name: str, args: dict[str, Any]) -> tuple[Any, ToolExecutionTrace]:
         """Safely executes a tool from the tool registry and records execution latency."""
@@ -63,51 +65,62 @@ class AgentOrchestrator:
             )
             return {"error": str(e)}, trace
 
-    def answer_question(self, question: str) -> ChatResponse:
+    def answer_question(self, question: str, session_id: str | None = None) -> ChatResponse:
         """
         Main entrypoint for business users asking natural language questions.
-        1. Checks domain scope & guardrails
-        2. Routes to LLM or Deterministic Engine
-        3. Executes tools against SQLite database
-        4. Verifies data grounding
-        5. Attaches dynamic chart if requested
+        Supports multi-turn session memory context, tool calling, grounding verification, and dynamic charts.
         """
         start_time = time.time()
+        sid = session_id or "default_session"
+        if sid not in self.session_memory:
+            self.session_memory[sid] = []
+
+        history = self.session_memory[sid]
 
         # Step 1: Input Validation & Domain Guardrail
-        is_valid, rejection_message = GroundingEngine.is_in_domain(question)
-        if not is_valid:
-            duration_ms = round((time.time() - start_time) * 1000, 2)
-            return ChatResponse(
-                answer=rejection_message,
-                grounded=True,
-                executed_tools=[],
-                data_points={},
-                chart=None,
-                suggested_followups=[
-                    "What were the top 5 products by revenue?",
-                    "Show monthly revenue as a chart.",
-                    "Why did revenue decline last month?",
-                    "Which customers have not purchased recently?"
-                ],
-                model_provider="RetailPulse Guardrail System",
-                latency_ms=duration_ms
-            )
+        # If question is short follow-up and we have history, allow context resolution
+        is_followup = len(history) > 0 and any(w in question.lower() for w in ["which of those", "who is the top", "how much did", "what about the first", "tell me more", "the top one", "electronics loss"])
+        
+        if not is_followup:
+            is_valid, rejection_message = GroundingEngine.is_in_domain(question)
+            if not is_valid:
+                duration_ms = round((time.time() - start_time) * 1000, 2)
+                return ChatResponse(
+                    answer=rejection_message,
+                    grounded=True,
+                    executed_tools=[],
+                    data_points={},
+                    chart=None,
+                    suggested_followups=[
+                        "What were the top 5 products by revenue?",
+                        "Show monthly revenue as a chart.",
+                        "Why did revenue decline last month?",
+                        "Forecast revenue for next 3 months."
+                    ],
+                    model_provider="RetailPulse Guardrail System",
+                    latency_ms=duration_ms
+                )
 
-        # Step 2: Attempt Live LLM if API Key is configured
+        # Step 2: Live LLM or Grounded Semantic Engine
         if self.gemini_key:
             try:
-                return self._call_gemini_agent(question, start_time)
+                resp = self._call_gemini_agent(question, start_time)
+                self.session_memory[sid].append({"question": question, "answer": resp.answer, "data_points": resp.data_points})
+                return resp
             except Exception as e:
-                logger.warning(f"Live Gemini invocation failed ({e}), seamlessly falling back to Grounded Engine.")
+                logger.warning(f"Live Gemini invocation failed ({e}), falling back to Grounded Engine.")
         elif self.openai_key:
             try:
-                return self._call_openai_agent(question, start_time)
+                resp = self._call_openai_agent(question, start_time)
+                self.session_memory[sid].append({"question": question, "answer": resp.answer, "data_points": resp.data_points})
+                return resp
             except Exception as e:
-                logger.warning(f"Live OpenAI invocation failed ({e}), seamlessly falling back to Grounded Engine.")
+                logger.warning(f"Live OpenAI invocation failed ({e}), falling back to Grounded Engine.")
 
-        # Step 3: High-Precision Grounded Semantic Engine (Offline / Local fallback)
-        return self._call_deterministic_grounded_engine(question, start_time)
+        # Step 3: High-Precision Grounded Semantic Engine with Multi-Turn Memory
+        resp = self._call_deterministic_grounded_engine(question, start_time, history=history)
+        self.session_memory[sid].append({"question": question, "answer": resp.answer, "data_points": resp.data_points})
+        return resp
 
     def _call_gemini_agent(self, question: str, start_time: float) -> ChatResponse:
         """Invokes Google Gemini with structured tool calling."""
@@ -146,9 +159,9 @@ class AgentOrchestrator:
         # Fallback to deterministic routing with provider tag
         return self._call_deterministic_grounded_engine(question, start_time, provider="OpenAI (gpt-4o)")
 
-    def _call_deterministic_grounded_engine(self, question: str, start_time: float, provider: str = "RetailPulse Grounded Semantic Engine") -> ChatResponse:
+    def _call_deterministic_grounded_engine(self, question: str, start_time: float, provider: str = "RetailPulse Grounded Semantic Engine", history: list[dict[str, Any]] | None = None) -> ChatResponse:
         """
-        High-precision semantic intent parser and execution engine.
+        High-precision semantic intent parser and execution engine with multi-turn memory.
         Gives 100% reproducible, grounded answers for business questions.
         """
         q = question.lower().strip()
@@ -158,6 +171,99 @@ class AgentOrchestrator:
         followups = []
 
         is_chart_requested = any(w in q for w in ["chart", "plot", "graph", "visualize", "show me monthly revenue as a chart"])
+
+        # Check for multi-turn contextual follow-up questions
+        if history and len(history) > 0:
+            recent_products = None
+            for turn in reversed(history):
+                pts = turn.get("data_points", {})
+                if "products" in pts:
+                    recent_products = pts["products"]
+                    break
+                elif "items" in pts:
+                    recent_products = pts["items"]
+                    break
+
+            # Follow-up: filtering previous products
+            if recent_products and any(w in q for w in ["which of those", "how many", "electronics", "first one", "top one", "the top"]):
+                products = recent_products
+                if "electronics" in q:
+                    filtered = [p for p in products if p.get("category_name", "").lower() == "electronics"]
+                    answer = f"From our previous analysis of the top products, **{len(filtered)}** belong to the **Electronics** category:\n\n"
+                    for p in filtered:
+                        answer += f"- **{p['product_name']}**: ${p['revenue']:,.2f} ({p['units_sold']:,} units sold)\n"
+                elif any(w in q for w in ["top one", "first one", "the top"]):
+                    top_p = products[0]
+                    answer = (
+                        f"The #1 product from our previous ranking is **{top_p['product_name']}** ({top_p['category_name']}).\n"
+                        f"- **Gross Revenue:** ${top_p['revenue']:,.2f}\n"
+                        f"- **Units Sold:** {top_p['units_sold']:,}\n"
+                        f"- **Current Stock:** {top_p['stock_quantity']} units\n"
+                    )
+                else:
+                    total_rev = sum(p['revenue'] for p in products)
+                    total_units = sum(p['units_sold'] for p in products)
+                    answer = f"Combined, the top {len(products)} products generated **${total_rev:,.2f}** across **{total_units:,}** units sold."
+
+                duration_ms = round((time.time() - start_time) * 1000, 2)
+                return ChatResponse(
+                    answer=answer,
+                    grounded=True,
+                    executed_tools=[],
+                    data_points={"followup_source": "session_memory", "products": products},
+                    chart=None,
+                    suggested_followups=["Show monthly revenue as a chart.", "Why did revenue decline last month?"],
+                    model_provider=f"{provider} (Contextual Follow-Up)",
+                    latency_ms=duration_ms
+                )
+
+        # Intent: Predictive Revenue Forecasting ("forecast sales", "predict revenue", "expected revenue")
+        if any(w in q for w in ["forecast", "predict", "projection", "future revenue", "next month revenue", "next quarter"]):
+            horizon = 3
+            if "quarter" in q or "3 month" in q:
+                horizon = 3
+            elif "6 month" in q:
+                horizon = 6
+            elif "1 month" in q or "next month" in q:
+                horizon = 1
+
+            forecast_res, trace = self.execute_tool("forecast_sales", {"horizon_months": horizon})
+            executed_tools.append(trace)
+            data_points["forecast"] = forecast_res
+            chart_obj = ChartSpec(**forecast_res["chart"])
+
+            items = forecast_res["forecast"]
+            answer = f"### Predictive Revenue Forecast: Next {horizon} Month(s)\n\n"
+            answer += (
+                f"Based on historical weighted regression across our 12-month baseline (${forecast_res['historical_baseline_revenue']:,.2f} in {forecast_res['historical_baseline_month']}), "
+                f"here is our projected sales trajectory with **95% confidence intervals**:\n\n"
+            )
+            answer += "| Target Month | Projected Revenue | Lower Bound (95%) | Upper Bound (95%) |\n"
+            answer += "| :--- | :--- | :--- | :--- |\n"
+            for it in items:
+                answer += f"| **{it['month']}** | **${it['projected_revenue']:,.2f}** | ${it['lower_bound_95']:,.2f} | ${it['upper_bound_95']:,.2f} |\n"
+
+            answer += (
+                f"\n**Strategic Projection:** Expected revenue trend indicates an aggregate change of "
+                f"**{forecast_res['projected_growth_pct']:+.1f}%** relative to our recent baseline. "
+                f"Re-stocking high-velocity inventory in Electronics and Home & Kitchen will be critical to achieving the upper bound."
+            )
+            followups = [
+                "Show monthly revenue as a chart.",
+                "Why did revenue decline last month?",
+                "What were the top 5 products by revenue?"
+            ]
+            duration_ms = round((time.time() - start_time) * 1000, 2)
+            return ChatResponse(
+                answer=answer,
+                grounded=True,
+                executed_tools=executed_tools,
+                data_points=data_points,
+                chart=chart_obj,
+                suggested_followups=followups,
+                model_provider=provider,
+                latency_ms=duration_ms
+            )
 
         # Intent 1: Multi-Step Root Cause Analysis ("Why did revenue decline last month?")
         if any(w in q for w in ["why did revenue decline", "why revenue drop", "why did sales drop", "why did revenue fall", "decline last month", "revenue decline"]):

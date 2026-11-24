@@ -8,6 +8,7 @@ from retailpulse.analytics.sales import SalesAnalytics
 from retailpulse.analytics.customers import CustomerAnalytics
 from retailpulse.analytics.products import ProductAnalytics
 from retailpulse.analytics.root_cause import RootCauseDiagnostic
+from retailpulse.analytics.forecasting import ForecastingEngine
 from retailpulse.agent.sql_guard import SQLGuard
 from retailpulse.models.schemas import ChartSpec, ToolExecutionTrace
 from retailpulse.core.logger import get_logger
@@ -54,6 +55,12 @@ def diagnose_revenue_decline(target_month: str | None = None, baseline_month: st
     """
     result = RootCauseDiagnostic.diagnose_revenue_decline(target_month=target_month, baseline_month=baseline_month)
     return result.model_dump()
+
+def forecast_sales(horizon_months: int = 3) -> dict[str, Any]:
+    """
+    Generate predictive sales forecasts for the upcoming months based on historical trends with 95% confidence intervals.
+    """
+    return ForecastingEngine.forecast_sales(horizon_months=horizon_months)
 
 def generate_chart(metric: str, chart_type: str | None = None, title: str | None = None) -> dict[str, Any]:
     """
@@ -146,6 +153,7 @@ AVAILABLE_TOOLS = {
     "get_top_products": get_top_products,
     "get_customer_metrics": get_customer_metrics,
     "diagnose_revenue_decline": diagnose_revenue_decline,
+    "forecast_sales": forecast_sales,
     "generate_chart": generate_chart,
     "query_database": query_database,
 }
@@ -196,6 +204,16 @@ TOOL_DEFINITIONS = [
             "properties": {
                 "target_month": {"type": "string", "description": "Target decline month (YYYY-MM), defaults to latest month"},
                 "baseline_month": {"type": "string", "description": "Baseline month for comparison (YYYY-MM)"}
+            }
+        }
+    },
+    {
+        "name": "forecast_sales",
+        "description": "Forecast future revenue for the next 1 to 6 months based on historical trend with 95% confidence intervals.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "horizon_months": {"type": "integer", "description": "Number of future months to forecast (default 3)"}
             }
         }
     },

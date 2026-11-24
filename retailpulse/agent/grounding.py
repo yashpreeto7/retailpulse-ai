@@ -15,12 +15,13 @@ IN_DOMAIN_KEYWORDS = [
     "aov", "average order", "profit", "month", "trend", "decline",
     "churn", "inactive", "top", "worst", "lowest", "highest", "perform",
     "chart", "graph", "plot", "kpi", "spend", "units", "inventory", "stock",
-    "sql", "select", "metric", "why", "growth", "breakdown"
+    "sql", "select", "metric", "why", "growth", "breakdown",
+    "forecast", "predict", "projection", "future"
 ]
 
 # Patterns for obvious out-of-domain or conversational chatter
 OUT_OF_DOMAIN_PATTERNS = [
-    r"\b(weather|temperature|forecast)\b",
+    r"\b(weather|temperature|weather forecast|rain forecast)\b",
     r"\b(capital of|president of|prime minister)\b",
     r"\b(who wrote|shakespeare|movie|song|actor|actress)\b",
     r"\b(recipe|how to cook|bake)\b",
