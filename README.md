@@ -2,7 +2,8 @@
 
 [![Python](https://img.shields.io/badge/Python-3.11%20|%203.12%20|%203.13%20|%203.14-blue.svg)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-green.svg)](https://fastapi.tiangolo.com/)
-[![Tests](https://img.shields.io/badge/Tests-25%20Passed%20(100%25)-brightgreen.svg)]()
+[![Tests](https://img.shields.io/badge/Tests-28%20Passed%20(100%25)-brightgreen.svg)]()
+[![Model](https://img.shields.io/badge/LLM-Alibaba%20Qwen%202.5%207B%20(Ollama)-orange.svg)]()
 [![License](https://img.shields.io/badge/License-MIT-purple.svg)]()
 
 > **Technical Assessment Submission for DDL Labs — Role: AI / Python / LLM Engineer**  
@@ -22,9 +23,10 @@ RetailPulse AI is a production-grade, zero-hallucination AI Data Analyst and Bus
 | **GitHub Repository** | `[GitHub Repository Link]` |
 | **Demo Video** | `[Demo Video Link]` (See [DEMO_GUIDE.md](file:///c:/Users/Yashpreet_o7/Desktop/NEW%20PROJECT/DEMO_GUIDE.md)) |
 | **Executive Summary** | [SOLUTION_EXECUTIVE_SUMMARY.md](file:///c:/Users/Yashpreet_o7/Desktop/NEW%20PROJECT/SOLUTION_EXECUTIVE_SUMMARY.md) (500 Words) |
-| **LLM Model & Provider** | **Primary:** Google Gemini (`gemini-2.5-flash`) via `google-genai`<br>**Secondary:** OpenAI (`gpt-4o`) via `openai`<br>**Offline Default:** RetailPulse Grounded Deterministic Semantic Engine (Zero-API-key local reproducibility) |
+| **LLM Model & Provider** | **Primary:** Alibaba Qwen 2.5 7B (`qwen2.5:7b`) via local Ollama Grounded RAG<br>**Secondary Cloud:** Google Gemini (`gemini-2.5-flash`) & OpenAI (`gpt-4o`)<br>**Offline Default:** RetailPulse Grounded Deterministic Semantic Engine (Zero-API-key local reproducibility) |
 | **Database** | SQLite Relational Database with SQLAlchemy 2.0 ORM & Analytical Indexing |
-| **Main Technologies** | Python 3.14, FastAPI, SQLAlchemy, Pydantic v2, Pandas, Chart.js, HTML5/CSS3 |
+| **Frontend & Visualization** | Obsidian & Electric Cobalt UI, Three.js WebGL 3D Matrix, Chart.js Telemetry |
+| **Main Technologies** | Python 3.14, FastAPI, Ollama, Three.js, Chart.js, SQLAlchemy, Pydantic v2, Pandas, HTML5/CSS3 |
 
 ---
 
@@ -62,11 +64,22 @@ Solves complex business questions such as: **"Why did revenue decline last month
 - **Step 4 (Customer Cohort Analysis)**: Reveals a 24% drop in repeat buyer orders.
 - **Step 5 (Commercial Actionable Takeaways)**: Synthesizes operational inventory and marketing recommendations.
 
-### 5. Dynamic Chart Generation
+### 5. Alibaba Qwen 2.5 7B Grounded RAG Pipeline
+- **Local Ollama Integration**: Communicates directly with Alibaba's `qwen2.5:7b` model over local REST APIs (`http://127.0.0.1:11434`).
+- **Grounded Context Injection**: Injects schema metadata, verified SQLite aggregations, and business knowledge corpora into the LLM prompt.
+- **Strict Anti-Hallucination**: The LLM is constrained to only synthesize numbers present in the grounded context, combining natural conversational fluency with mathematical certainty.
+
+### 6. Interactive 3D WebGL Revenue Matrix & Obsidian Studio
+- **Three.js Spatial Engine**: 3D category pillars rendered in real-time WebGL with dynamic heights reflecting revenue magnitude.
+- **Interactive Raycasting HUD**: Hover tooltips show category revenue, growth percentages, and SKU volume.
+- **Camera Viewport Presets**: Instant transitions between Isometric (`ISO`), Top-down (`TOP`), and Front-elevation (`FRONT`) view modes.
+- **Obsidian & Electric Cobalt Styling**: Clean architectural design with micro-sparklines, Chart.js telemetry, and an integrated safe SQL workbench.
+
+### 7. Dynamic Chart Generation
 - Users can ask: *"Show monthly revenue as a chart"* or *"Plot top products"*.
 - The system dynamically extracts live SQL data, produces JSON chart configurations, and renders interactive Chart.js visualizations directly inside chat bubbles and on dashboard panels.
 
-### 6. Grounding Engine & SQL Security Guard
+### 8. Grounding Engine & SQL Security Guard
 - **Zero Hallucination**: AI numerical responses are cross-referenced against actual tool datasets.
 - **Graceful Rejection**: General/unsupported inquiries (e.g. *"What is the weather in Paris?"*) are politely rejected and redirected to retail queries.
 - **SQL Guardrails**: AST/regex filters prevent SQL injection and forbid mutation commands (`DROP`, `DELETE`, `UPDATE`, `INSERT`, `ALTER`, `TRUNCATE`), enforcing read-only execution with mandatory `LIMIT 50`.
