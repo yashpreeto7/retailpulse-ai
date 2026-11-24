@@ -1,0 +1,26 @@
+product_id,category_id,name,sku,price,cost,stock
+PROD_001,CAT_ELEC,Ultra Wireless Noise-Cancelling Headphones,ELC-NC-001,299.99,140.0,45
+PROD_002,CAT_ELEC,Pro 4K Gaming & Workstation Monitor,ELC-4K-002,549.99,290.0,18
+PROD_003,CAT_ELEC,Mechanical Keyboard with RGB Backlight,ELC-KB-003,129.99,55.0,80
+PROD_004,CAT_ELEC,Smart Fitness Watch Series 5,ELC-SW-004,219.99,95.0,60
+PROD_005,CAT_ELEC,USB-C Fast Charging Hub 7-in-1,ELC-HB-005,49.99,18.0,150
+PROD_006,CAT_APP,Premium Heavyweight Cotton Hoodie,APP-HD-006,89.99,32.0,120
+PROD_007,CAT_APP,Classic Stretch Denim Jacket,APP-DJ-007,119.99,48.0,75
+PROD_008,CAT_APP,Breathable Performance Running Tee,APP-RT-008,38.99,12.0,200
+PROD_009,CAT_APP,Water-Resistant All-Weather Parka,APP-PK-009,199.99,85.0,40
+PROD_010,CAT_APP,Merino Wool Thermal Socks 3-Pack,APP-SK-010,24.99,7.5,300
+PROD_011,CAT_HOME,Artisan Compact Espresso Machine,HOM-ESP-011,449.99,210.0,30
+PROD_012,CAT_HOME,Digital XL Air Fryer with Crisper,HOM-AF-012,139.99,62.0,65
+PROD_013,CAT_HOME,Non-Stick Ceramic Cookware Set 10-Piece,HOM-CK-013,249.99,115.0,35
+PROD_014,CAT_HOME,High-Speed Vortex Countertop Blender,HOM-BL-014,99.99,42.0,90
+PROD_015,CAT_HOME,Smart Temperature Electric Kettle,HOM-KT-015,69.99,28.0,110
+PROD_016,CAT_FIT,High-Density Eco Yoga Mat,FIT-YM-016,45.99,16.0,140
+PROD_017,CAT_FIT,Quick-Lock Adjustable Dumbbells Pair,FIT-DB-017,329.99,160.0,25
+PROD_018,CAT_FIT,Insulated Stainless Steel Bottle 32oz,FIT-WB-018,34.99,11.0,220
+PROD_019,CAT_FIT,Compact Folding Rowing Machine,FIT-RW-019,599.99,310.0,15
+PROD_020,CAT_BEAU,Hydrating Hyaluronic Acid Facial Serum,BEA-SR-020,42.0,12.0,180
+PROD_021,CAT_BEAU,Ionic Salon Hair Dryer with Diffuser,BEA-HD-021,119.99,50.0,70
+PROD_022,CAT_BEAU,Sonic Electric Toothbrush with Travel Case,BEA-TB-022,79.99,30.0,100
+PROD_023,CAT_APP,Vintage Corduroy Bucket Hat,APP-BH-023,28.0,10.0,95
+PROD_024,CAT_HOME,Cast Iron Bacon Press,HOM-BP-024,19.99,8.0,120
+PROD_001,CAT_ELEC,Ultra Wireless Noise-Cancelling Headphones,ELC-NC-001,299.99,140.0,45

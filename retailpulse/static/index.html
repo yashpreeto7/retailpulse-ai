@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RetailPulse AI — Business Intelligence & Data Analyst Agent</title>
+    <!-- Modern typography & icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Chart.js and Marked.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <header class="app-header">
+        <div class="brand">
+            <div class="brand-logo">RP</div>
+            <div class="brand-text">
+                <h1>RetailPulse <span>AI</span></h1>
+                <p>Enterprise BI & Data Analyst Agent</p>
+            </div>
+        </div>
+        <div class="header-badges">
+            <span class="status-pill online"><span class="dot"></span> SQLite Connected</span>
+            <span class="status-pill model-badge" id="modelStatusPill">Engine: Grounded BI Agent</span>
+            <a href="/docs" target="_blank" class="nav-btn">API Docs (Swagger)</a>
+            <button class="nav-btn primary" onclick="triggerETL()">Refresh / Re-seed Data</button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="dashboard-container">
+        <!-- Top KPI Row -->
+        <section class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <span class="kpi-title">Total Gross Revenue</span>
+                    <span class="kpi-icon">$</span>
+                </div>
+                <div class="kpi-value" id="kpiRevenue">$0.00</div>
+                <div class="kpi-subtext" id="kpiCompletedOrders">Loading completed orders...</div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <span class="kpi-title">Total Orders</span>
+                    <span class="kpi-icon">📦</span>
+                </div>
+                <div class="kpi-value" id="kpiOrders">0</div>
+                <div class="kpi-subtext" id="kpiOrdersSubtext">Completed vs Cancelled</div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <span class="kpi-title">Average Order Value (AOV)</span>
+                    <span class="kpi-icon">📈</span>
+                </div>
+                <div class="kpi-value" id="kpiAOV">$0.00</div>
+                <div class="kpi-subtext">Revenue per completed order</div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <span class="kpi-title">Customer Base</span>
+                    <span class="kpi-icon">👥</span>
+                </div>
+                <div class="kpi-value" id="kpiCustomers">0</div>
+                <div class="kpi-subtext" id="kpiCustomersSubtext">Active vs Inactive (90d)</div>
+            </div>
+        </section>
+
+        <!-- Main Workspace (Chat Studio on Left, Live Charts on Right) -->
+        <section class="workspace-grid">
+            <!-- Left Column: AI Data Analyst Chat Studio -->
+            <div class="chat-studio">
+                <div class="studio-header">
+                    <div class="studio-title">
+                        <h2>🤖 AI Data Analyst Agent</h2>
+                        <span class="grounding-tag">100% Grounded in Data</span>
+                    </div>
+                    <button class="clear-chat-btn" onclick="clearChat()">Clear Chat</button>
+                </div>
+
+                <!-- Suggested Quick Prompts -->
+                <div class="prompt-chips-wrapper">
+                    <span class="chips-label">Quick Inquiries:</span>
+                    <div class="chips-container">
+                        <button class="chip" onclick="askPreset('What were the top 5 products by revenue?')">🏆 Top 5 Products by Revenue</button>
+                        <button class="chip" onclick="askPreset('Show monthly revenue as a chart.')">📊 Show Monthly Revenue Chart</button>
+                        <button class="chip highlight" onclick="askPreset('Why did revenue decline last month?')">🔍 Why did revenue decline last month?</button>
+                        <button class="chip" onclick="askPreset('Which category generated the most revenue?')">🏷️ Revenue by Category</button>
+                        <button class="chip" onclick="askPreset('Which customers have not purchased recently?')">⏳ Inactive Customers (&gt;90d)</button>
+                        <button class="chip warning" onclick="askPreset('What is the weather in Paris?')">⚠️ Test Unsupported Question</button>
+                    </div>
+                </div>
+
+                <!-- Chat History Window -->
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message assistant-message">
+                        <div class="message-sender">
+                            <strong>RetailPulse AI</strong>
+                            <span class="timestamp">Just now</span>
+                        </div>
+                        <div class="message-content">
+                            <p>Hello! I am your <strong>RetailPulse AI Data Analyst</strong>. I can query our retail transaction database, analyze revenue and customer metrics, generate dynamic charts, and perform multi-step root cause investigations.</p>
+                            <p>Try clicking one of the suggested prompts above or type your question below!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Input Form -->
+                <form class="chat-input-bar" id="chatForm" onsubmit="handleChatSubmit(event)">
+                    <input type="text" id="chatInput" placeholder="Ask a business question (e.g., 'Why did revenue decline last month?')..." autocomplete="off" required>
+                    <button type="submit" id="sendBtn">
+                        <span>Send</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Right Column: Visual Dashboard Charts -->
+            <div class="visual-studio">
+                <div class="studio-header">
+                    <h2>📊 Executive Business Visualizations</h2>
+                    <span class="live-tag">Live Database Synced</span>
+                </div>
+
+                <div class="charts-grid">
+                    <!-- Chart 1: Monthly Revenue Trend -->
+                    <div class="chart-card">
+                        <div class="chart-card-header">
+                            <h3>Monthly Revenue Trend</h3>
+                            <span class="metric-badge">Line</span>
+                        </div>
+                        <div class="canvas-wrapper">
+                            <canvas id="monthlyRevenueCanvas"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Chart 2: Category Breakdown -->
+                    <div class="chart-card">
+                        <div class="chart-card-header">
+                            <h3>Revenue by Category</h3>
+                            <span class="metric-badge">Bar</span>
+                        </div>
+                        <div class="canvas-wrapper">
+                            <canvas id="categoryRevenueCanvas"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Chart 3: Top Products by Revenue -->
+                    <div class="chart-card">
+                        <div class="chart-card-header">
+                            <h3>Top 5 Products by Revenue</h3>
+                            <span class="metric-badge">Bar</span>
+                        </div>
+                        <div class="canvas-wrapper">
+                            <canvas id="topProductsCanvas"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Chart 4: Customer Segmentation -->
+                    <div class="chart-card">
+                        <div class="chart-card-header">
+                            <h3>Customer Activity & Cohorts</h3>
+                            <span class="metric-badge">Doughnut</span>
+                        </div>
+                        <div class="canvas-wrapper">
+                            <canvas id="customerSegmentsCanvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bottom Drawer: Data Quality & Safe SQL Query Tool -->
+        <section class="tools-footer">
+            <details class="tool-accordion">
+                <summary>
+                    <span>🛠️ System Tools: Data Quality Audit & Safe Read-Only SQL Terminal</span>
+                    <span class="accordion-subtext">Inspect ETL cleaning metrics and run safe SELECT queries</span>
+                </summary>
+                <div class="accordion-content">
+                    <div class="system-tools-grid">
+                        <!-- ETL Quality Audit -->
+                        <div class="audit-panel">
+                            <h4>ETL Data Ingestion & Cleaning Audit</h4>
+                            <div class="audit-stats" id="auditStats">
+                                <div class="stat-item"><span class="stat-num" id="statLoaded">-</span><span class="stat-lbl">Records Loaded</span></div>
+                                <div class="stat-item"><span class="stat-num" id="statDups">-</span><span class="stat-lbl">Duplicates Cleaned</span></div>
+                                <div class="stat-item"><span class="stat-num" id="statMissing">-</span><span class="stat-lbl">Missing Fixed</span></div>
+                                <div class="stat-item"><span class="stat-num" id="statCleanPct">-%</span><span class="stat-lbl">Clean Pass Rate</span></div>
+                            </div>
+                            <ul class="issues-list" id="auditIssuesList"></ul>
+                        </div>
+
+                        <!-- Safe SQL Executor -->
+                        <div class="sql-panel">
+                            <h4>Safe Read-Only SQL Terminal</h4>
+                            <div class="sql-input-row">
+                                <textarea id="sqlInput" rows="3" placeholder="SELECT name, price, stock_quantity FROM products ORDER BY price DESC LIMIT 5"></textarea>
+                                <button class="nav-btn primary" onclick="runSafeSQL()">Execute</button>
+                            </div>
+                            <div class="sql-results" id="sqlResults">
+                                <span class="placeholder-text">Query results will appear here...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </details>
+        </section>
+    </main>
+
+    <footer class="app-footer">
+        <p>RetailPulse AI • Powered by FastAPI & SQLite • High-Precision Business Intelligence Engine</p>
+    </footer>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

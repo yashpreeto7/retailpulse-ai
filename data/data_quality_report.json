@@ -1,0 +1,16 @@
+{
+  "total_raw_records": 3003,
+  "duplicates_removed": 4,
+  "missing_values_handled": 2,
+  "records_loaded": 2999,
+  "clean_pct": 99.87,
+  "issues_detected": [
+    "Removed 1 duplicate customer records",
+    "Imputed 1 missing customer emails with fallback format",
+    "Removed 1 duplicate product records",
+    "Removed 1 duplicate order records",
+    "Removed 1 duplicate order item records",
+    "Computed and repaired 1 missing subtotals"
+  ],
+  "timestamp": "2026-11-24T12:23:55.236175"
+}

@@ -1,0 +1,163 @@
+customer_id,name,email,city,state,signup_date
+CUST_0001,Linda Smith,linda.smith41@example.com,Denver,CO,2024-02-18
+CUST_0002,Joseph Jones,joseph.jones96@example.com,Denver,CO,2023-11-22
+CUST_0003,Paul Williams,paul.williams14@example.com,Austin,TX,2024-05-04
+CUST_0004,Mary Williams,mary.williams74@example.com,Houston,TX,2024-01-28
+CUST_0005,Joshua Smith,joshua.smith93@example.com,Dallas,TX,2024-01-10
+CUST_0006,Paul Wilson,paul.wilson85@example.com,Houston,TX,2024-05-17
+CUST_0007,Sarah Smith,sarah.smith99@example.com,Boston,MA,2023-12-21
+CUST_0008,Margaret Hernandez,margaret.hernandez37@example.com,Phoenix,AZ,2023-12-19
+CUST_0009,Nancy Brown,nancy.brown22@example.com,Los Angeles,CA,2024-04-12
+CUST_0010,Daniel Lopez,daniel.lopez15@example.com,Austin,TX,2024-02-13
+CUST_0011,Sandra Moore,sandra.moore20@example.com,Los Angeles,CA,2024-04-11
+CUST_0012,Emily Martinez,emily.martinez89@example.com,Atlanta,GA,2024-08-17
+CUST_0013,Lisa Jackson,lisa.jackson18@example.com,Houston,TX,2024-09-25
+CUST_0014,Robert Perez,robert.perez20@example.com,Houston,TX,2024-02-26
+CUST_0015,Joseph Brown,joseph.brown68@example.com,San Antonio,TX,2024-02-20
+CUST_0016,Lisa Garcia,lisa.garcia36@example.com,Philadelphia,PA,2024-03-30
+CUST_0017,Sarah Thompson,sarah.thompson92@example.com,San Francisco,CA,2024-09-14
+CUST_0018,John Martin,john.martin78@example.com,Seattle,WA,2023-12-27
+CUST_0019,Jessica Garcia,jessica.garcia44@example.com,San Diego,CA,2024-04-12
+CUST_0020,Emily Davis,emily.davis17@example.com,Seattle,WA,2024-03-15
+CUST_0021,Joseph Johnson,joseph.johnson61@example.com,Boston,MA,2024-03-10
+CUST_0022,Sarah Williams,sarah.williams50@example.com,Houston,TX,2024-07-17
+CUST_0023,Susan Lee,susan.lee92@example.com,San Diego,CA,2024-04-20
+CUST_0024,Sandra Jones,sandra.jones41@example.com,Phoenix,AZ,2023-12-11
+CUST_0025,Emily Moore,emily.moore64@example.com,Phoenix,AZ,2024-07-26
+CUST_0026,Donna Gonzalez,donna.gonzalez27@example.com,Philadelphia,PA,2024-01-21
+CUST_0027,Steven Thomas,steven.thomas24@example.com,Los Angeles,CA,2023-10-25
+CUST_0028,Elizabeth Lee,elizabeth.lee64@example.com,Chicago,IL,2024-09-13
+CUST_0029,Joshua Williams,joshua.williams86@example.com,San Antonio,TX,2024-04-13
+CUST_0030,Sandra Taylor,sandra.taylor11@example.com,Phoenix,AZ,2024-07-10
+CUST_0031,Linda Perez,linda.perez44@example.com,San Francisco,CA,2024-07-01
+CUST_0032,Nancy Brown,nancy.brown30@example.com,Phoenix,AZ,2024-05-10
+CUST_0033,Sandra Smith,sandra.smith74@example.com,Denver,CO,2024-02-12
+CUST_0034,Barbara Taylor,barbara.taylor90@example.com,San Francisco,CA,2023-11-24
+CUST_0035,Karen Lee,karen.lee35@example.com,Dallas,TX,2024-08-07
+CUST_0036,Elizabeth Lopez,elizabeth.lopez79@example.com,Boston,MA,2023-12-22
+CUST_0037,Kimberly Smith,kimberly.smith72@example.com,Austin,TX,2024-03-14
+CUST_0038,Mary Brown,mary.brown49@example.com,San Francisco,CA,2024-04-03
+CUST_0039,Jessica Johnson,jessica.johnson20@example.com,Houston,TX,2024-07-17
+CUST_0040,Jennifer White,jennifer.white78@example.com,San Diego,CA,2023-11-05
+CUST_0041,David Jones,david.jones80@example.com,Seattle,WA,2024-05-31
+CUST_0042,William Rodriguez,william.rodriguez64@example.com,Dallas,TX,2024-08-06
+CUST_0043,Susan Moore,susan.moore35@example.com,Boston,MA,2024-09-18
+CUST_0044,Karen Gonzalez,karen.gonzalez57@example.com,Seattle,WA,2024-08-28
+CUST_0045,Mark Taylor,mark.taylor41@example.com,San Diego,CA,2023-12-01
+CUST_0046,Joseph Williams,joseph.williams85@example.com,Philadelphia,PA,2023-10-11
+CUST_0047,Emily Davis,emily.davis10@example.com,Austin,TX,2024-01-21
+CUST_0048,John Thompson,john.thompson39@example.com,Seattle,WA,2023-10-31
+CUST_0049,John Johnson,john.johnson19@example.com,Atlanta,GA,2024-03-18
+CUST_0050,Steven Davis,steven.davis72@example.com,Phoenix,AZ,2024-09-07
+CUST_0051,Susan Moore,susan.moore83@example.com,Chicago,IL,2024-07-19
+CUST_0052,Donald Davis,donald.davis62@example.com,Boston,MA,2024-05-30
+CUST_0053,Richard Brown,richard.brown65@example.com,Los Angeles,CA,2024-09-02
+CUST_0054,Daniel Wilson,daniel.wilson16@example.com,San Antonio,TX,2024-05-27
+CUST_0055,Michael Johnson,michael.johnson23@example.com,San Antonio,TX,2024-03-22
+CUST_0056,Jessica Miller,jessica.miller67@example.com,Houston,TX,2024-07-01
+CUST_0057,David Wilson,david.wilson69@example.com,Chicago,IL,2024-02-20
+CUST_0058,Jessica Williams,jessica.williams22@example.com,San Diego,CA,2024-07-08
+CUST_0059,Patricia Lee,patricia.lee21@example.com,Dallas,TX,2023-10-08
+CUST_0060,Jessica Garcia,jessica.garcia71@example.com,San Antonio,TX,2024-06-05
+CUST_0061,Susan Gonzalez,susan.gonzalez31@example.com,San Francisco,CA,2023-10-31
+CUST_0062,Matthew Smith,matthew.smith68@example.com,San Antonio,TX,2024-02-13
+CUST_0063,Charles Wilson,charles.wilson94@example.com,Denver,CO,2024-07-11
+CUST_0064,Ashley Jones,ashley.jones37@example.com,Houston,TX,2024-02-29
+CUST_0065,Patricia Jackson,patricia.jackson17@example.com,Denver,CO,2024-07-04
+CUST_0066,Christopher Johnson,christopher.johnson71@example.com,New York,NY,2024-07-26
+CUST_0067,Steven Taylor,steven.taylor75@example.com,Chicago,IL,2023-10-30
+CUST_0068,Jennifer Garcia,jennifer.garcia18@example.com,Los Angeles,CA,2024-07-31
+CUST_0069,Jessica Gonzalez,jessica.gonzalez41@example.com,Los Angeles,CA,2024-07-18
+CUST_0070,Donna Martin,donna.martin20@example.com,New York,NY,2024-08-13
+CUST_0071,Anthony Perez,anthony.perez76@example.com,Austin,TX,2024-07-16
+CUST_0072,Christopher Rodriguez,christopher.rodriguez50@example.com,Houston,TX,2024-09-07
+CUST_0073,Jessica Rodriguez,jessica.rodriguez95@example.com,San Antonio,TX,2023-12-07
+CUST_0074,Karen Anderson,karen.anderson11@example.com,Philadelphia,PA,2023-11-07
+CUST_0075,Sandra Martin,sandra.martin19@example.com,Austin,TX,2023-11-21
+CUST_0076,Paul Miller,paul.miller26@example.com,Dallas,TX,2024-02-13
+CUST_0077,Daniel Williams,daniel.williams57@example.com,San Francisco,CA,2024-02-03
+CUST_0078,Charles Garcia,charles.garcia48@example.com,San Diego,CA,2024-07-05
+CUST_0079,Michelle Lee,michelle.lee95@example.com,Dallas,TX,2023-10-05
+CUST_0080,Emily Martinez,emily.martinez23@example.com,San Francisco,CA,2024-09-04
+CUST_0081,David Rodriguez,david.rodriguez80@example.com,Los Angeles,CA,2023-11-24
+CUST_0082,Elizabeth Rodriguez,elizabeth.rodriguez36@example.com,Phoenix,AZ,2024-08-05
+CUST_0083,Nancy Miller,nancy.miller43@example.com,Seattle,WA,2024-08-20
+CUST_0084,Steven Thomas,steven.thomas21@example.com,Phoenix,AZ,2023-10-27
+CUST_0085,Margaret Rodriguez,margaret.rodriguez52@example.com,New York,NY,2023-10-02
+CUST_0086,David Lee,david.lee66@example.com,Phoenix,AZ,2023-12-22
+CUST_0087,Emily Thompson,emily.thompson11@example.com,San Antonio,TX,2024-07-14
+CUST_0088,Linda Williams,linda.williams29@example.com,San Francisco,CA,2024-09-18
+CUST_0089,Paul Johnson,paul.johnson84@example.com,Atlanta,GA,2024-04-07
+CUST_0090,Emily Jones,emily.jones15@example.com,San Antonio,TX,2023-12-05
+CUST_0091,Karen Lopez,karen.lopez55@example.com,San Francisco,CA,2023-10-21
+CUST_0092,Susan Perez,susan.perez23@example.com,Houston,TX,2024-09-06
+CUST_0093,Daniel Moore,daniel.moore89@example.com,San Francisco,CA,2024-04-26
+CUST_0094,Elizabeth Davis,elizabeth.davis32@example.com,Atlanta,GA,2023-12-23
+CUST_0095,Anthony Smith,anthony.smith62@example.com,Chicago,IL,2024-03-19
+CUST_0096,Jessica Rodriguez,jessica.rodriguez23@example.com,Chicago,IL,2024-09-24
+CUST_0097,Matthew Johnson,matthew.johnson38@example.com,Atlanta,GA,2024-05-28
+CUST_0098,Richard Anderson,richard.anderson39@example.com,Philadelphia,PA,2024-03-05
+CUST_0099,Joseph Smith,joseph.smith61@example.com,Seattle,WA,2024-01-07
+CUST_0100,Nancy Rodriguez,nancy.rodriguez45@example.com,Atlanta,GA,2023-11-05
+CUST_0101,Daniel Lee,daniel.lee96@example.com,Dallas,TX,2024-04-22
+CUST_0102,Paul Hernandez,paul.hernandez43@example.com,New York,NY,2023-11-29
+CUST_0103,Barbara Jackson,barbara.jackson23@example.com,Phoenix,AZ,2023-10-20
+CUST_0104,Joshua Wilson,joshua.wilson65@example.com,Philadelphia,PA,2024-03-09
+CUST_0105,Joshua Taylor,joshua.taylor83@example.com,Los Angeles,CA,2024-04-15
+CUST_0106,Richard Rodriguez,richard.rodriguez10@example.com,New York,NY,2024-05-11
+CUST_0107,Kimberly Moore,kimberly.moore35@example.com,Seattle,WA,2024-09-08
+CUST_0108,Lisa Wilson,lisa.wilson52@example.com,Los Angeles,CA,2024-09-05
+CUST_0109,Michelle Hernandez,michelle.hernandez48@example.com,Seattle,WA,2023-12-03
+CUST_0110,Steven Martinez,steven.martinez51@example.com,Seattle,WA,2024-04-27
+CUST_0111,Betty Thompson,betty.thompson26@example.com,Phoenix,AZ,2024-07-10
+CUST_0112,Richard Wilson,richard.wilson96@example.com,Seattle,WA,2024-04-12
+CUST_0113,Barbara Martin,barbara.martin61@example.com,Austin,TX,2024-03-03
+CUST_0114,Emily Smith,emily.smith36@example.com,Phoenix,AZ,2024-02-24
+CUST_0115,Margaret Jackson,margaret.jackson51@example.com,Austin,TX,2024-08-31
+CUST_0116,Sandra Anderson,sandra.anderson37@example.com,San Diego,CA,2024-09-10
+CUST_0117,Steven Thomas,steven.thomas94@example.com,Boston,MA,2023-12-26
+CUST_0118,Jennifer Martinez,jennifer.martinez91@example.com,Dallas,TX,2024-09-04
+CUST_0119,Michelle Hernandez,michelle.hernandez96@example.com,Los Angeles,CA,2024-01-29
+CUST_0120,Karen Davis,karen.davis28@example.com,Boston,MA,2024-01-10
+CUST_0121,Mary Johnson,mary.johnson88@example.com,Houston,TX,2024-05-31
+CUST_0122,John Anderson,john.anderson83@example.com,San Antonio,TX,2024-08-18
+CUST_0123,Richard Thompson,richard.thompson73@example.com,Denver,CO,2024-04-14
+CUST_0124,Betty Davis,betty.davis98@example.com,Chicago,IL,2024-08-31
+CUST_0125,James Brown,james.brown38@example.com,Boston,MA,2024-05-05
+CUST_0126,Barbara Thompson,barbara.thompson16@example.com,Dallas,TX,2024-05-25
+CUST_0127,Emily Davis,emily.davis68@example.com,San Francisco,CA,2023-12-02
+CUST_0128,David Anderson,david.anderson81@example.com,Seattle,WA,2024-06-28
+CUST_0129,Joshua Hernandez,joshua.hernandez88@example.com,Boston,MA,2024-05-14
+CUST_0130,Steven Wilson,steven.wilson67@example.com,Atlanta,GA,2024-07-07
+CUST_0131,William White,william.white67@example.com,Atlanta,GA,2024-05-31
+CUST_0132,Thomas Davis,thomas.davis45@example.com,Atlanta,GA,2024-08-22
+CUST_0133,Kimberly Thomas,kimberly.thomas45@example.com,Seattle,WA,2024-01-31
+CUST_0134,Mark Williams,mark.williams40@example.com,Denver,CO,2024-02-24
+CUST_0135,Sarah Hernandez,sarah.hernandez20@example.com,Philadelphia,PA,2024-07-03
+CUST_0136,David Jones,david.jones98@example.com,Houston,TX,2024-04-14
+CUST_0137,Elizabeth Thompson,elizabeth.thompson63@example.com,Houston,TX,2023-11-02
+CUST_0138,Anthony Hernandez,anthony.hernandez63@example.com,Dallas,TX,2024-05-26
+CUST_0139,Patricia Miller,patricia.miller59@example.com,Atlanta,GA,2024-05-03
+CUST_0140,Donna Thompson,donna.thompson58@example.com,New York,NY,2024-07-21
+CUST_0141,Donald Smith,donald.smith59@example.com,Philadelphia,PA,2024-03-01
+CUST_0142,Anthony Moore,anthony.moore87@example.com,Denver,CO,2024-07-06
+CUST_0143,Joseph Thomas,joseph.thomas65@example.com,Houston,TX,2024-02-17
+CUST_0144,Ashley Smith,ashley.smith95@example.com,San Antonio,TX,2024-03-21
+CUST_0145,Betty White,betty.white26@example.com,Chicago,IL,2024-05-27
+CUST_0146,Michelle Moore,michelle.moore85@example.com,New York,NY,2024-04-19
+CUST_0147,Andrew Perez,andrew.perez92@example.com,New York,NY,2023-11-12
+CUST_0148,Margaret Jones,margaret.jones33@example.com,Atlanta,GA,2024-05-24
+CUST_0149,Patricia Rodriguez,patricia.rodriguez37@example.com,San Antonio,TX,2024-03-16
+CUST_0150,Sandra Hernandez,sandra.hernandez45@example.com,Philadelphia,PA,2024-04-12
+CUST_0151,Anthony Rodriguez,anthony.rodriguez70@example.com,Atlanta,GA,2023-11-11
+CUST_0152,Mary White,mary.white54@example.com,Dallas,TX,2023-10-27
+CUST_0153,Joseph Lee,joseph.lee15@example.com,Los Angeles,CA,2024-08-29
+CUST_0154,Mary Davis,mary.davis89@example.com,Houston,TX,2023-10-11
+CUST_0155,Elizabeth Davis,elizabeth.davis95@example.com,Chicago,IL,2024-05-30
+CUST_0156,Linda Jackson,linda.jackson99@example.com,Houston,TX,2024-05-26
+CUST_0157,Thomas Lopez,thomas.lopez87@example.com,Chicago,IL,2024-08-06
+CUST_0158,Linda Garcia,linda.garcia84@example.com,Phoenix,AZ,2023-11-25
+CUST_0159,Mary Martinez,mary.martinez58@example.com,Austin,TX,2024-09-11
+CUST_0160,Betty Thompson,betty.thompson85@example.com,Houston,TX,2023-11-08
+CUST_0012,Emily Martinez ,emily.martinez89@example.com,Atlanta,GA,2024-08-17
+CUST_0161,Jane MissingEmail,,Chicago,IL,2024-03-15
