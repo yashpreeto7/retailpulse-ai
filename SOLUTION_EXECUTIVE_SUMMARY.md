@@ -1,6 +1,6 @@
 # Solution Executive Summary
 **Project:** RetailPulse AI — Enterprise AI Data Analyst & Business Intelligence Agent  
-**Candidate / Author:** John Doe (Full Stack AI / LLM Engineer Candidate)  
+**Candidate / Author:** Yashpreet (Full Stack AI / LLM Engineer Candidate)  
 **Target Role:** AI / Python / LLM Engineer — DDL Labs  
 **Submission Date:** November 2026  
 

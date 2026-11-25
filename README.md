@@ -7,7 +7,7 @@
 [![License](https://img.shields.io/badge/License-MIT-purple.svg)]()
 
 > **Technical Assessment Submission for DDL Labs — Role: AI / Python / LLM Engineer**  
-> Candidate: **John Doe**  
+> Candidate: **Yashpreet**  
 > Submission Date: **November 2026**  
 
 RetailPulse AI is a production-grade, zero-hallucination AI Data Analyst and Business Intelligence Agent that allows business stakeholders to interact with complex e-commerce data using natural language. It combines deterministic data engineering, controlled tool calling, multi-step root cause diagnostic engines, and dynamic visualization generation.
@@ -18,11 +18,11 @@ RetailPulse AI is a production-grade, zero-hallucination AI Data Analyst and Bus
 
 | Field | Details |
 | :--- | :--- |
-| **Candidate Name** | John Doe |
+| **Candidate Name** | Yashpreet |
 | **Role Applied** | AI / Python / LLM Engineer (DDL Labs) |
-| **GitHub Repository** | `[GitHub Repository Link]` |
-| **Demo Video** | `[Demo Video Link]` (See [DEMO_GUIDE.md](file:///c:/Users/Yashpreet_o7/Desktop/NEW%20PROJECT/DEMO_GUIDE.md)) |
-| **Executive Summary** | [SOLUTION_EXECUTIVE_SUMMARY.md](file:///c:/Users/Yashpreet_o7/Desktop/NEW%20PROJECT/SOLUTION_EXECUTIVE_SUMMARY.md) (500 Words) |
+| **GitHub Repository** | [https://github.com/yashpreeto7/retailpulse-ai](https://github.com/yashpreeto7/retailpulse-ai) |
+| **Demo Video** | [Watch Demo Video (Google Drive)](https://drive.google.com/file/d/17Z_S5TknI4iYarwH2-5HYFcsG4tURZ1V/view?usp=sharing) (Script: [DEMO_GUIDE.md](./DEMO_GUIDE.md)) |
+| **Executive Summary** | [SOLUTION_EXECUTIVE_SUMMARY.md](./SOLUTION_EXECUTIVE_SUMMARY.md) (500 Words) |
 | **LLM Model & Provider** | **Primary:** Alibaba Qwen 2.5 7B (`qwen2.5:7b`) via local Ollama Grounded RAG<br>**Secondary Cloud:** Google Gemini (`gemini-2.5-flash`) & OpenAI (`gpt-4o`)<br>**Offline Default:** RetailPulse Grounded Deterministic Semantic Engine (Zero-API-key local reproducibility) |
 | **Database** | SQLite Relational Database with SQLAlchemy 2.0 ORM & Analytical Indexing |
 | **Frontend & Visualization** | Obsidian & Electric Cobalt UI, Three.js WebGL 3D Matrix, Chart.js Telemetry |
