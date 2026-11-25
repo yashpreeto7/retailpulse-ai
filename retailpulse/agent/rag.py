@@ -19,44 +19,40 @@ from retailpulse.models.schemas import ChartSpec
 
 logger = get_logger("retailpulse.rag")
 
-# Domain Knowledge Corpus for Schema & Metrics
+# Domain Knowledge Corpus for Schema & Metrics (Strictly conceptual — live numbers always come from SQLite)
 KNOWLEDGE_CORPUS = [
     {
         "topic": "KPI Definitions",
         "keywords": ["revenue", "kpi", "sales", "aov", "orders"],
         "content": (
-            "Total Gross Revenue: Sum of orders.total_amount for status='completed'. "
-            "Total Orders: 1,008 placed (967 completed, 41 cancelled). "
-            "Average Order Value (AOV): Total Gross Revenue / Completed Orders. "
-            "Total Customers: 161 registered accounts (113 active, 48 inactive)."
+            "Total Gross Revenue is computed as SUM(orders.total_amount) where status='completed'. "
+            "Average Order Value (AOV) is Total Gross Revenue / Completed Orders. "
+            "All figures are in USD."
         )
     },
     {
-        "topic": "Monthly Trajectory & Root Cause",
-        "keywords": ["decline", "last month", "drop", "why", "trend", "october", "september"],
+        "topic": "Root Cause Framework",
+        "keywords": ["decline", "last month", "drop", "why", "trend"],
         "content": (
-            "Revenue peaked in September 2024 at $39,410.46 across 104 orders. "
-            "In October 2024, revenue dropped to $35,186.40 (a net decline of -$4,224.06 or -10.7%). "
-            "Primary Root Cause: Stockouts in the Electronics category (specifically Studio Pro 16 Workstation and 4K Reference OLED Display). "
-            "Order volume dropped by 9.6% and repeat customer transactions declined by 24%."
+            "Revenue decline diagnostics decompose Month-over-Month (MoM) variance into "
+            "Order Volume Effect, Average Order Value (AOV) Effect, Category-Level Variance, "
+            "Product SKU Stockouts, and Customer Cohort Retention."
         )
     },
     {
         "topic": "Customer Retention & Inactivity",
         "keywords": ["customer", "inactive", "churn", "dormant", "recent", "retention"],
         "content": (
-            "Inactive Customers threshold: Accounts with no completed order in the last 90 days. "
-            "Active customers: 113 (70.2%). Inactive customers: 48 (29.8%). "
-            "Dormant cohorts: 21 accounts dormant 91-120 days, 17 accounts dormant 121-180 days, 10 accounts lapsed >180 days."
+            "Inactive Customers are defined as registered accounts with no completed order in the last 90 days. "
+            "Repeat customers are accounts with 2 or more completed orders."
         )
     },
     {
-        "topic": "Product & Category Shares",
+        "topic": "Product & Category Taxonomy",
         "keywords": ["category", "product", "sku", "top", "best", "units"],
         "content": (
-            "Categories ranked by revenue: 1. Electronics (34.9% share), 2. Apparel (26.3% share), "
-            "3. Home & Living (19.1% share), 4. Beauty (11.9% share), 5. Sports (7.7% share). "
-            "Top SKU: Studio Pro 16 Workstation ($62,400.00, 48 units sold)."
+            "Product categories include Electronics, Home & Kitchen, Fitness & Outdoor, Apparel, "
+            "and Beauty & Personal Care. Category revenue shares are computed from completed order_items."
         )
     }
 ]
@@ -124,6 +120,15 @@ class GroundedRAGPipeline:
             data_packet["categories"] = [c.model_dump() for c in cats]
             cat_summary = "\n".join([f"- {c.category_name}: ${c.revenue:,.2f} ({c.pct_of_total:.1f}% share, {c.units_sold} units)" for c in cats])
             context_parts.append(f"LIVE CATEGORY REVENUE (SQLite):\n{cat_summary}")
+            if any(w in q for w in ["total revenue", "overall revenue", "kpi", "gross revenue"]):
+                kpi = SalesAnalytics.get_kpi_summary()
+                data_packet["kpis"] = kpi.model_dump()
+                context_parts.append(
+                    f"LIVE KPI SUMMARY (SQLite):\n"
+                    f"- Total Gross Revenue: ${kpi.total_revenue:,.2f}\n"
+                    f"- Total Orders: {kpi.total_orders} ({kpi.completed_orders} completed, {kpi.cancelled_orders} cancelled)\n"
+                    f"- Average Order Value: ${kpi.average_order_value:,.2f}"
+                )
             chart_dict = generate_chart("category_revenue", title="Revenue by Product Category")
             chart_obj = ChartSpec(**chart_dict)
 

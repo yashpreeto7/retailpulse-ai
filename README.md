@@ -184,7 +184,7 @@ The server will automatically bootstrap the database and start at:
 
 ## 🧪 Running Automated Tests
 
-Run the full automated test suite (25 tests covering data processing, business math, SQL safety, API endpoints, and AI golden queries):
+Run the full automated test suite (28 tests covering data processing, business math, forecasting, multi-turn memory, SQL safety, API endpoints, and AI golden queries):
 
 ```bash
 python -m pytest -v
@@ -193,7 +193,7 @@ python -m pytest -v
 Expected output:
 ```
 ============================= test session starts =============================
-collected 25 items
+collected 28 items
 
 tests/test_agent_grounding.py::test_ai_golden_question_top_products PASSED
 tests/test_agent_grounding.py::test_ai_golden_question_monthly_revenue PASSED
@@ -217,11 +217,14 @@ tests/test_api.py::test_api_data_quality PASSED
 tests/test_data_cleaner.py::test_cleaner_deduplication PASSED
 tests/test_data_cleaner.py::test_cleaner_missing_values_and_subtotal_repair PASSED
 tests/test_data_cleaner.py::test_data_quality_report PASSED
+tests/test_elevations.py::test_predictive_sales_forecasting PASSED
+tests/test_elevations.py::test_multi_turn_conversational_memory PASSED
+tests/test_elevations.py::test_live_server_endpoints PASSED
 tests/test_root_cause.py::test_multi_step_revenue_decline_diagnosis PASSED
 tests/test_sql_guard.py::test_safe_select_queries_pass PASSED
 tests/test_sql_guard.py::test_malicious_sql_rejections PASSED
 
-======================== 25 passed in 2.39s ========================
+======================== 28 passed ========================
 ```
 
 ---
@@ -230,9 +233,9 @@ tests/test_sql_guard.py::test_malicious_sql_rejections PASSED
 
 | Question | Tool Selected | Ground Truth Verification |
 | :--- | :--- | :--- |
-| **"What were the top 5 products by revenue?"** | `get_top_products(metric='revenue', limit=5)` | Top SKU: *Pro 4K Gaming Monitor* ($54,449.01 across 99 units). |
+| **"What were the top 5 products by revenue?"** | `get_top_products(metric='revenue', limit=5)` | Top SKU: *Pro 4K Gaming & Workstation Monitor* ($54,449.01 across 99 units). |
 | **"Show monthly revenue as a chart."** | `get_sales_metrics(metric_type='monthly')` + `generate_chart()` | Generates interactive line chart with historical monthly points. |
-| **"Which category generated the most revenue?"** | `get_sales_metrics(metric_type='category')` | Identifies *Electronics* as #1 at $127,745.32 (35.7% share). |
+| **"Which category generated the most revenue?"** | `get_sales_metrics(metric_type='category')` | Identifies *Electronics* as #1 at $111,685.61 (30.9% share). |
 | **"Why did revenue decline last month?"** | `diagnose_revenue_decline()` + `generate_chart()` | 5-step breakdown: -$16,248.49 (-40.7%) drop driven by -$7,229.82 loss in Electronics, stockouts, and -24% repeat buyer drop. |
 | **"Which customers have not purchased recently?"** | `get_customer_metrics(segment='inactive', limit=10)` | Returns 48 inactive customers (>90 days without order) with last order dates and spend. |
 | **"What is the capital of France?"** | `GroundingEngine.is_in_domain()` | Rejection guardrail triggered; politely redirects to retail analytics. |
